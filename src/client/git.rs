@@ -25,4 +25,18 @@ impl Client for GitClient {
             .collect();
         branches
     }
+
+    fn list_commits(&self) -> Vec<String> {
+        let repo = Repository::open("./").unwrap();
+        let mut revwalk = repo.revwalk().unwrap();
+        revwalk.push_head().unwrap();
+        let commits: Vec<String> = revwalk
+            .map(|oid| {
+                let oid = oid.unwrap();
+                let commit = repo.find_commit(oid).unwrap();
+                commit.message().unwrap().to_string()
+            })
+            .collect();
+        commits
+    }
 }
