@@ -7,4 +7,8 @@ fn main() {
     branches.iter().for_each(|branch| {
         println!("* {} [{:?}]", branch.name, branch.branch_type);
     });
+
+    let commits = client.list_commits();
+    println!("\nCommits in current branch");
+    commits.iter().for_each(|commit| println!("- {:#?}", commit));
 }
